@@ -1,0 +1,33 @@
+
+allprojects {
+    group 'testing-project'
+    version '1.0-SNAPSHOT'
+}
+
+defaultTasks "clean", "test"
+
+ext {
+    versionGuice = "4.0"
+    versionJackson = "2.8.9"
+    versionJetty = "9.4.6.v20170531"
+    versionJersey = "1.19.4"
+    versionH2 = "1.4.196"
+    versionGuava = "22.0"
+    versionHibernate = "5.2.10.Final"
+    versionHibernateValidator = "5.4.1.Final"
+    versionHibernatePersistenceApi = "1.0.0.Final"
+    versionTestNG = "6.11"
+    versionSl4j = "1.7.25"
+    versionLogback = "1.2.3"
+}
+
+subprojects {
+
+    apply plugin: 'java'
+
+    sourceCompatibility = 1.8
+
+    repositories {
+        mavenCentral()
+    }
+}

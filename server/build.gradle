@@ -1,0 +1,33 @@
+apply plugin: 'application'
+
+mainClassName = "com.rustam.project.Application"
+
+dependencies {
+    compile project(":model")
+
+    compile "com.google.inject:guice:$versionGuice"
+    compile "com.google.inject.extensions:guice-servlet:$versionGuice"
+    compile "com.google.inject.extensions:guice-persist:$versionGuice"
+    compile "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:$versionJackson"
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$versionJackson"
+    compile "com.sun.jersey.contribs:jersey-guice:$versionJersey"
+    compile "org.eclipse.jetty:jetty-server:$versionJetty"
+    compile "org.eclipse.jetty:jetty-servlet:$versionJetty"
+    compile "org.hibernate:hibernate-core:$versionHibernate"
+    compile "org.hibernate:hibernate-entitymanager:$versionHibernate"
+    compile "com.h2database:h2:$versionH2"
+    compile "com.google.guava:guava:$versionGuava"
+    compile "ch.qos.logback:logback-classic:$versionLogback"
+    compile "org.slf4j:slf4j-api:$versionSl4j"
+    compile "org.slf4j:jul-to-slf4j:$versionSl4j"
+
+    testCompile "com.sun.jersey:jersey-client:$versionJersey"
+    testCompile "org.testng:testng:$versionTestNG"
+}
+
+
+test {
+    useTestNG() {
+    }
+    testLogging.showStandardStreams = true
+}
