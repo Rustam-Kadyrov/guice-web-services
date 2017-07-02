@@ -24,7 +24,7 @@ public class Application {
                 new ServletConfigModule(),
                 new ApplicationModule());
 
-        EmbeddedContainer embeddedContainer = injector.getInstance(EmbeddedContainer.class);
+        embeddedContainer = injector.getInstance(EmbeddedContainer.class);
         embeddedContainer.start(injector);
     }
 
