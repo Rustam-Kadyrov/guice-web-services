@@ -1,42 +1,29 @@
 package com.rustam.project.model.request;
 
 import com.rustam.project.model.entity.Currency;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 
 /**
  * Created by Rustam_Kadyrov on 25.06.2017.
  */
+@Getter
+@Setter
+@NoArgsConstructor
 public class RechargeAccountRequest {
 
     private Long accountId;
     private Currency currency;
     private BigDecimal amount;
 
-    public RechargeAccountRequest() {
-    }
-
-    public Long getAccountId() {
-        return accountId;
-    }
-
-    public void setAccountId(Long accountId) {
+    @Builder
+    public RechargeAccountRequest(Long accountId, Currency currency, BigDecimal amount) {
         this.accountId = accountId;
-    }
-
-    public Currency getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(Currency currency) {
         this.currency = currency;
-    }
-
-    public BigDecimal getAmount() {
-        return amount;
-    }
-
-    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 }

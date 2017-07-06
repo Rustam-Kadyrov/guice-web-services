@@ -19,6 +19,8 @@ ext {
     versionTestNG = "6.11"
     versionSl4j = "1.7.25"
     versionLogback = "1.2.3"
+    versionLombok = "1.16.18"
+    versionHamcrest = "2.0.0.0"
 }
 
 subprojects {

@@ -5,13 +5,15 @@ import com.google.inject.persist.Transactional;
 import com.rustam.project.model.entity.Account;
 import com.rustam.project.model.entity.Transfer;
 import com.rustam.project.model.entity.User;
-import com.rustam.project.model.exception.ApplicationException;
+import com.rustam.project.model.exception.NotAllowedException;
+import com.rustam.project.model.exception.NotFoundException;
 import com.rustam.project.model.request.AddAccountRequest;
 import com.rustam.project.model.request.RechargeAccountRequest;
 import com.rustam.project.model.request.TransferMoneyRequest;
 
 import javax.persistence.EntityManager;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -21,6 +23,7 @@ import java.util.List;
  */
 public class AccountService {
 
+    public static final BigDecimal BIG_ZERO = new BigDecimal(BigInteger.ZERO, 3);
     private final EntityManager em;
 
     @Inject
@@ -36,10 +39,10 @@ public class AccountService {
     public Account createAccount(AddAccountRequest addAccountRequest) {
         User user = em.find(User.class, addAccountRequest.getUserId());
         if (user == null) {
-            throw new ApplicationException("User not found");
+            throw new NotFoundException("User not found");
         }
         Account account = new Account();
-        account.setBalance(BigDecimal.ZERO);
+        account.setBalance(BIG_ZERO);
         account.setCurrency(addAccountRequest.getAccountCurrency());
         account.setCreatedAt(ZonedDateTime.now());
 
@@ -54,19 +57,19 @@ public class AccountService {
     public List<Account> transferMoney(TransferMoneyRequest transferMoneyRequest) {
         Account from = findOne(transferMoneyRequest.getAccountFrom());
         if (from == null) {
-            throw new ApplicationException("Account from not found");
+            throw new NotFoundException("Account from not found");
         }
         Account to = findOne(transferMoneyRequest.getAccountTo());
         if (to == null) {
-            throw new ApplicationException("Account to not found");
+            throw new NotFoundException("Account to not found");
         }
 
         if (from.getCurrency() != to.getCurrency() || from.getCurrency() != transferMoneyRequest.getCurrency()) {
-            throw new ApplicationException("Cross transfers aren't allowed at the moment");
+            throw new NotAllowedException("Cross transfers aren't allowed at the moment");
         }
 
         if (from.getBalance().compareTo(transferMoneyRequest.getAmount()) == -1) {
-            throw new ApplicationException("Not enough money to transfer");
+            throw new NotAllowedException("Not enough money to transfer");
         }
 
         Transfer transfer = new Transfer();
@@ -91,11 +94,11 @@ public class AccountService {
     public Account rechargeMoney(RechargeAccountRequest rechargeAccountRequest) {
         Account account = findOne(rechargeAccountRequest.getAccountId());
         if (account == null) {
-            throw new ApplicationException("Account not found");
+            throw new NotFoundException("Account not found");
         }
 
         if (account.getCurrency() != rechargeAccountRequest.getCurrency()) {
-            throw new ApplicationException("Cross transfers aren't allowed at the moment");
+            throw new NotAllowedException("Cross transfers aren't allowed at the moment");
         }
 
         account.setBalance(account.getBalance().add(rechargeAccountRequest.getAmount()));

@@ -3,11 +3,15 @@ package com.rustam.project.service;
 import com.google.inject.Inject;
 import com.google.inject.persist.Transactional;
 import com.rustam.project.model.entity.User;
+import com.rustam.project.model.exception.NotFoundException;
+import com.rustam.project.model.exception.ValidationException;
 import com.rustam.project.model.request.CreateUserRequest;
 
 import javax.persistence.EntityManager;
 import java.time.ZonedDateTime;
 import java.util.List;
+
+import static java.util.Objects.isNull;
 
 
 /**
@@ -37,8 +41,11 @@ public class UserService {
 
     @Transactional
     public User updateUser(User user) {
+        if (isNull(user.getId())) {
+            throw new ValidationException("id is null");
+        }
         if (findOne(user.getId()) == null) {
-            return null;
+            throw new NotFoundException("User not found");
         }
         user.setLastModification(ZonedDateTime.now());
         return em.merge(user);
@@ -49,7 +56,7 @@ public class UserService {
     public Long remove(Long id) {
         User user = findOne(id);
         if (user == null) {
-            return null;
+            throw new NotFoundException("User not found");
         }
         em.remove(user);
         return id;

@@ -1,6 +1,10 @@
 package com.rustam.project.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -10,6 +14,10 @@ import java.time.ZonedDateTime;
 /**
  * Created by Rustam_Kadyrov on 25.06.2017.
  */
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
 @Entity(name = "Account")
 @Table(name = "account")
 public class Account {
@@ -22,7 +30,7 @@ public class Account {
     @NotNull
     private Currency currency;
 
-    @Column
+    @Column(precision = 19, scale = 3)
     @NotNull
     private BigDecimal balance;
 
@@ -36,58 +44,27 @@ public class Account {
     @NotNull
     private ZonedDateTime modifiedAt;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-    public Account() {
-    }
+        Account account = (Account) o;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Currency getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(Currency currency) {
-        this.currency = currency;
-    }
-
-    public BigDecimal getBalance() {
-        return balance;
-    }
-
-    public void setBalance(BigDecimal balance) {
-        this.balance = balance;
-    }
-
-    public ZonedDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(ZonedDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public ZonedDateTime getModifiedAt() {
-        return modifiedAt;
-    }
-
-    public void setModifiedAt(ZonedDateTime modifiedAt) {
-        this.modifiedAt = modifiedAt;
+        if (!id.equals(account.id)) return false;
+        if (currency != account.currency) return false;
+        if (!balance.equals(account.balance)) return false;
+        if (!createdAt.equals(account.createdAt)) return false;
+        return modifiedAt != null ? modifiedAt.equals(account.modifiedAt) : account.modifiedAt == null;
     }
 
     @Override
-    public String toString() {
-        return "Account{" +
-                "id=" + id +
-                ", currency=" + currency +
-                ", balance=" + balance +
-                ", createdAt=" + createdAt +
-                ", modifiedAt=" + modifiedAt +
-                '}';
+    public int hashCode() {
+        int result = id.hashCode();
+        result = 31 * result + currency.hashCode();
+        result = 31 * result + balance.hashCode();
+        result = 31 * result + createdAt.hashCode();
+        result = 31 * result + (modifiedAt != null ? modifiedAt.hashCode() : 0);
+        return result;
     }
 }

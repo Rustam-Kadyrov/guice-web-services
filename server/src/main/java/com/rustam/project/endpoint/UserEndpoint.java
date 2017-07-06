@@ -70,7 +70,7 @@ public class UserEndpoint {
      * @return
      */
     @DELETE
-    public MessageResponse<Long> deleteUser(@QueryParam("id") Long id) {
+    public MessageResponse<Long> deleteUser(Long id) {
         checkNotNull(id);
         return new MessageResponse<>(userService.remove(id));
     }

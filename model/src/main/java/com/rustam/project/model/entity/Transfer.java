@@ -1,6 +1,10 @@
 package com.rustam.project.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.DecimalMin;
@@ -11,6 +15,10 @@ import java.time.ZonedDateTime;
 /**
  * Created by Rustam_Kadyrov on 25.06.2017.
  */
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
 @Entity(name = "Transfer")
 @Table(name = "transfer")
 public class Transfer {
@@ -27,7 +35,7 @@ public class Transfer {
     @NotNull
     private Long accountTo;
 
-    @Column
+    @Column(precision = 19, scale = 3)
     @DecimalMin(value = "0", inclusive = false)
     private BigDecimal amount;
 
@@ -39,66 +47,29 @@ public class Transfer {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
     private ZonedDateTime createdAt;
 
-    public Transfer() {
-    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-    public Long getId() {
-        return id;
-    }
+        Transfer transfer = (Transfer) o;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getAccountFrom() {
-        return accountFrom;
-    }
-
-    public void setAccountFrom(Long accountFrom) {
-        this.accountFrom = accountFrom;
-    }
-
-    public Long getAccountTo() {
-        return accountTo;
-    }
-
-    public void setAccountTo(Long accountTo) {
-        this.accountTo = accountTo;
-    }
-
-    public BigDecimal getAmount() {
-        return amount;
-    }
-
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
-    }
-
-    public Currency getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(Currency currency) {
-        this.currency = currency;
-    }
-
-    public ZonedDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(ZonedDateTime createdAt) {
-        this.createdAt = createdAt;
+        if (!id.equals(transfer.id)) return false;
+        if (!accountFrom.equals(transfer.accountFrom)) return false;
+        if (!accountTo.equals(transfer.accountTo)) return false;
+        if (!amount.equals(transfer.amount)) return false;
+        if (currency != transfer.currency) return false;
+        return createdAt.equals(transfer.createdAt);
     }
 
     @Override
-    public String toString() {
-        return "Transfer{" +
-                "id=" + id +
-                ", accountFrom=" + accountFrom +
-                ", accountTo=" + accountTo +
-                ", amount=" + amount +
-                ", currency=" + currency +
-                ", createdAt=" + createdAt +
-                '}';
+    public int hashCode() {
+        int result = id.hashCode();
+        result = 31 * result + accountFrom.hashCode();
+        result = 31 * result + accountTo.hashCode();
+        result = 31 * result + amount.hashCode();
+        result = 31 * result + currency.hashCode();
+        result = 31 * result + createdAt.hashCode();
+        return result;
     }
 }

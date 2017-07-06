@@ -1,6 +1,10 @@
 package com.rustam.project.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -11,6 +15,10 @@ import java.util.List;
 /**
  * Created by Rustam Kadyrov on 25.06.2017.
  */
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
 @Entity(name = "User")
 @Table(name = "user")
 public class User {
@@ -32,48 +40,26 @@ public class User {
     @JoinColumn(name = "account_id")
     private List<Account> accounts = new ArrayList<>();
 
-    public User() {
-    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-    public Long getId() {
-        return id;
-    }
+        User user = (User) o;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public ZonedDateTime getLastModification() {
-        return lastModification;
-    }
-
-    public void setLastModification(ZonedDateTime lastModification) {
-        this.lastModification = lastModification;
-    }
-
-    public List<Account> getAccounts() {
-        return accounts;
-    }
-
-    public void setAccounts(List<Account> accounts) {
-        this.accounts = accounts;
+        if (!id.equals(user.id)) return false;
+        if (!name.equals(user.name)) return false;
+        if (lastModification != null ? !lastModification.equals(user.lastModification) : user.lastModification != null)
+            return false;
+        return accounts.equals(user.accounts);
     }
 
     @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", lastModification=" + lastModification +
-                ", accounts=" + accounts +
-                '}';
+    public int hashCode() {
+        int result = id.hashCode();
+        result = 31 * result + name.hashCode();
+        result = 31 * result + (lastModification != null ? lastModification.hashCode() : 0);
+        result = 31 * result + accounts.hashCode();
+        return result;
     }
 }

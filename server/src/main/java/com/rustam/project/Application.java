@@ -13,13 +13,14 @@ import com.rustam.project.config.module.ServletConfigModule;
 public class Application {
 
     private EmbeddedContainer embeddedContainer;
+    private Injector injector;
 
     public static void main(String[] args) throws Exception {
         new Application().start();
     }
 
     public void start() throws Exception {
-        Injector injector = Guice.createInjector(
+        injector = Guice.createInjector(
                 new PropertiesModule("/my-app.properties"),
                 new ServletConfigModule(),
                 new ApplicationModule());
@@ -34,4 +35,7 @@ public class Application {
         }
     }
 
+    public <T> T getInstance(Class<T> type) {
+        return injector.getInstance(type);
+    }
 }

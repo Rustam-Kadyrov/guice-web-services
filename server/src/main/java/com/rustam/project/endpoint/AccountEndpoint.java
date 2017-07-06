@@ -38,7 +38,7 @@ public class AccountEndpoint {
      * @return
      */
     @POST
-    public MessageResponse<Account> createAcoount(AddAccountRequest addAccountRequest) {
+    public MessageResponse<Account> createAccount(AddAccountRequest addAccountRequest) {
         checkNotNull(addAccountRequest.getUserId());
         checkNotNull(addAccountRequest.getAccountCurrency());
         return new MessageResponse<>(accountService.createAccount(addAccountRequest));

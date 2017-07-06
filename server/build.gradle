@@ -23,6 +23,7 @@ dependencies {
 
     testCompile "com.sun.jersey:jersey-client:$versionJersey"
     testCompile "org.testng:testng:$versionTestNG"
+    testCompile "org.hamcrest:java-hamcrest:$versionHamcrest"
 }
 
 
