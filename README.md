@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/Rustam-Kadyrov/guice-web-services.svg?branch=master)](https://travis-ci.org/Rustam-Kadyrov/guice-web-services)
 
 # Web services application
 This is a standalone web application based on a stack:
