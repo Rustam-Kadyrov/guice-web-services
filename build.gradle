@@ -1,10 +1,7 @@
-
 allprojects {
     group 'testing-project'
     version '1.0-SNAPSHOT'
 }
-
-defaultTasks "clean", "test"
 
 ext {
     versionGuice = "4.0"
@@ -33,3 +30,4 @@ subprojects {
         mavenCentral()
     }
 }
+

@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/Rustam-Kadyrov/guice-web-services.svg?branch=master)](https://travis-ci.org/Rustam-Kadyrov/guice-web-services)
+[![Coverage Status](https://coveralls.io/repos/github/Rustam-Kadyrov/guice-web-services/badge.svg?branch=master)](https://coveralls.io/github/Rustam-Kadyrov/guice-web-services?branch=master)
 
 # Web services application
 This is a standalone web application based on a stack:
@@ -19,4 +20,4 @@ This command starts application on [the local address](http://localhost:8081/my-
 
 This task cleans working directories and starts test. This test lunches application and invokes many endpoints through rest client. Due to that it outputs results to the log.  
 
-    gradle
+    gradle clean test
